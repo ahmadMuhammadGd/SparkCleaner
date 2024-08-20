@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: SparkCleaner
+Version: 0.0.1
+Summary: spark dataframe cleaner
+Home-page: UNKNOWN
+Author: Ahmad Muhammad
+Author-email: ahmadmuhammadgd@gmail.com
+License: UNKNOWN
+Keywords: python,spark,data cleaning
+Platform: UNKNOWN
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+
+UNKNOWN
+
