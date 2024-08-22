@@ -1,15 +1,17 @@
 from setuptools import setup, find_packages
 
-with open('README.md') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     readme = f.read()
 
-VERSION = '0.0.1' 
+VERSION = '0.0.2' 
 DESCRIPTION = 'spark dataframe cleaner'
 LONG_DESCRIPTION = readme
 
+
 setup(
-        name="SparkCleaner", 
+        name="Spark-df-Cleaner", 
         version=VERSION,
+        long_description_content_type='text/markdown',
         author="Ahmad Muhammad",
         author_email="ahmadmuhammadgd@gmail.com",
         description=DESCRIPTION,
