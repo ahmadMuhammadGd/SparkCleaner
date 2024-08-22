@@ -26,7 +26,7 @@ class TestCleaningStrategies(unittest.TestCase):
         data = [
             (1, "Alice", 30, "2024-07-01", "alice@example.com"),
             (2, "Bob", None, "2024-07/02", "bob@example"),
-            (3, "Charlie", 25, "invalid_date", None),
+            (3, "Charlie", '25z', "invalid_date", None),
             (4, "David", -5, "2024-07-04", "david@example.com"),
             (5, "Eve", 22, "2024-07-05", "eve@example.com"),
             (5, "Eve", 22, "2024-07-05", "eve@example.com"),  # Duplicate row
@@ -55,14 +55,14 @@ class TestCleaningStrategies(unittest.TestCase):
         self.assertEqual(result, 0)  # Should drop rows with null values in 'age'
 
     def test_validate_column_types(self):
-        strategy = ValidateColumnTypesStrategy(columns=self.df.columns, expected_types={'age': 'IntegerType'})
+        strategy = ValidateColumnTypesStrategy(columns=self.df.columns, expected_types={'age': IntegerType()})
         pipeline = CleaningPipeline()
         pipeline.add_strategy(strategy)
         pipeline.set_dataframe(self.df)
 
         cleaned_df = pipeline.run()
-        errors = json.loads(strategy.get_report())
-        self.assertGreater(len(errors['errors']), 0)  # Should log errors due to invalid type in 'age'
+        errors = strategy.get_report()
+        self.assertGreater(len(errors), 0)  # Should log errors due to invalid type in 'age'
 
     def test_validate_dates(self):
         strategy = ValidateDatesStrategy(columns=["date"], date_format='yyyy-MM-dd')
@@ -71,8 +71,8 @@ class TestCleaningStrategies(unittest.TestCase):
         pipeline.set_dataframe(self.df)
 
         cleaned_df = pipeline.run()
-        errors = json.loads(strategy.get_report())
-        self.assertGreater(len(errors['errors']), 0)  # Should log errors due to invalid date format
+        errors = strategy.get_report()
+        self.assertGreater(len(errors), 0)  # Should log errors due to invalid date format
 
     def test_validate_regex(self):
         strategy = ValidateRegexStrategy(columns=["email"], patterns={'email': '^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$'})
@@ -81,8 +81,8 @@ class TestCleaningStrategies(unittest.TestCase):
         pipeline.set_dataframe(self.df)
 
         cleaned_df = pipeline.run()
-        errors = json.loads(strategy.get_report())
-        self.assertGreater(len(errors['errors']), 0)  # Should log errors for invalid email formats
+        errors = strategy.get_report()
+        self.assertGreater(len(errors), 0)  # Should log errors for invalid email formats
 
     def test_filter_negative_values(self):
         strategy = FilterNegativeValuesStrategy(columns=["age"])
