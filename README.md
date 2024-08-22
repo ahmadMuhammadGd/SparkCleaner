@@ -1,10 +1,11 @@
-### SparkCleaner Documentation
+# SparkCleaner Documentation
 
-#### Overview
-> Disclaimer: this software is not stable yet
+## Overview          
+**Disclaimer: this software is not stable yet**
+--------------     
 SparkCleaner is a Python library for data cleaning using PySpark. It provides various cleaning strategies, a pipeline for applying these strategies, and a logging mechanism for tracking errors and issues.
 
-#### Cleaning Strategies
+## Cleaning Strategies
 
 1. **DropDuplicatesStrategy**
    - **Purpose**: Removes duplicate rows based on specified columns.
@@ -36,7 +37,7 @@ SparkCleaner is a Python library for data cleaning using PySpark. It provides va
    - **Method**: `clean(df: DataFrame) -> DataFrame`
    - **Logs**: Logs errors for values not matching the regex.
 
-#### Cleaning Pipeline
+## Cleaning Pipeline
 
 - **Class**: `CleaningPipeline`
 - **Methods**:
@@ -45,7 +46,7 @@ SparkCleaner is a Python library for data cleaning using PySpark. It provides va
   - `run() -> DataFrame`: Applies all strategies to the DataFrame and returns the cleaned DataFrame.
   - `get_report() -> str`: Returns a JSON report of all logged errors.
 
-#### Logging
+## Logging
 - **Class**: `Logger`
 - **Purpose**: Records errors encountered during the cleaning process.
 - **Method**: `log_error(index, column, message)`: Logs errors with details.
