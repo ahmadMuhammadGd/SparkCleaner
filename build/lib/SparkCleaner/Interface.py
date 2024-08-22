@@ -29,7 +29,7 @@ class CleaningPipeline:
             self.df = strategy.clean(self.df)
             self.report[strategy.whoami()] = strategy.get_report()
         
-        return self.df
+        return self.df.drop('__index')
 
     def get_report(self)-> str:
         if self.report:

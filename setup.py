@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 
+with open('README.md') as f:
+    readme = f.read()
+
 VERSION = '0.0.1' 
 DESCRIPTION = 'spark dataframe cleaner'
-LONG_DESCRIPTION = ''
+LONG_DESCRIPTION = readme
 
 setup(
         name="SparkCleaner", 
