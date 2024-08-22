@@ -12,3 +12,6 @@ class CleaningStrategy:
 
     def get_report(self) -> str:
         return self.logger.get_logs()
+
+    def whoami(self)->str:
+        return self.__class__.__name__ 
