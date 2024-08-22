@@ -2,11 +2,12 @@ from SparkCleaner.Strategies.base import CleaningStrategy
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import row_number,lit
 from pyspark.sql.window import Window
-
+import json
 
 class CleaningPipeline:
     def __init__(self):
         self.strategies = []
+        self.report = {}
         self.df = None
 
     def add_strategy(self, strategy: CleaningStrategy | list[CleaningStrategy]):
@@ -26,6 +27,12 @@ class CleaningPipeline:
         
         for strategy in self.strategies:
             self.df = strategy.clean(self.df)
-            print(strategy.get_report())
+            self.report[strategy.whoami()] = strategy.get_report()
         
         return self.df
+
+    def get_report(self)-> str:
+        if self.report:
+            return json.dumps(self.report, indent=4)
+        else:
+            return json.dumps([{}], indent=4)

@@ -12,6 +12,6 @@ class ValidateRegexStrategy(CleaningStrategy):
         for column, pattern in self.patterns.items():
             invalid_records = df.filter(~col(column).rlike(pattern))
             for row in invalid_records.collect():
-                self.logger.log_error(row['__index'], column, self.error_msg)
+                self.logger.log_error(row['__index'], column, f"{self.error_msg}: {row[column]}")
             df = df.filter(col(column).rlike(pattern))
         return df

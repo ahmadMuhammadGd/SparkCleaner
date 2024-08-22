@@ -12,4 +12,4 @@ class Logger:
         self.error_log.append(self.format_func(index, column, error_type))
 
     def get_logs(self):
-        return json.dumps({'errors': self.error_log}, indent=4)
+        return self.error_log

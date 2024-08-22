@@ -12,8 +12,8 @@ class ValidateDatesStrategy(CleaningStrategy):
                 df = df.withColumn(column, expr(f"to_date({column}, '{self.date_format}')"))
                 invalid_dates = df.filter(col(column).isNull())
                 for row in invalid_dates.collect():
-                    self.logger.log_error(row['__index'], column, 'invalid_date')
+                    self.logger.log_error(row['__index'], column, f'invalid_date: {row[column]}')
             except Exception as e:
                 self.logger.log_error(None, column, str(e))
         
-        return df
+        return df.dropna(subset=self.columns)

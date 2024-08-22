@@ -6,6 +6,6 @@ class FilterNegativeValuesStrategy(CleaningStrategy):
         for column in self.columns:
             invalid_values = df.filter(col(column) <= 0)
             for row in invalid_values.collect():
-                self.logger.log_error(row['__index'], column, 'negative_value')
+                self.logger.log_error(row['__index'], column, f'negative_value: {row[column]}')
             df = df.filter(col(column) > 0)
         return df
