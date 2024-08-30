@@ -4,6 +4,9 @@ from .filter_negative_values import FilterNegativeValuesStrategy
 from .validate_columns_type import ValidateColumnTypesStrategy
 from .validate_date import ValidateDatesStrategy
 from .validate_regex import ValidateRegexStrategy
+from .filtering import FilteringStrategy
+from .replace_nulls import FillNAStrategy
+from .base import BaseCleaningStrategy
 
 __all__ = [
     "DropDuplicatesStrategy",
@@ -11,5 +14,8 @@ __all__ = [
     "FilterNegativeValuesStrategy",
     "ValidateColumnTypesStrategy",
     "ValidateDatesStrategy",
-    "ValidateRegexStrategy"
+    "ValidateRegexStrategy",
+    "BaseCleaningStrategy",
+    "FilteringStrategy",
+    "FillNAStrategy"
 ]

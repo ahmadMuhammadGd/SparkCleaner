@@ -1,6 +1,6 @@
-from SparkCleaner.Strategies.base import CleaningStrategy, DataFrame
+from SparkCleaner.Strategies.base import BaseCleaningStrategy, DataFrame
 
-class DropMissingValuesStrategy(CleaningStrategy):
+class DropMissingValuesStrategy(BaseCleaningStrategy):
     def clean(self, df: DataFrame) -> DataFrame:
         initial_count = df.count()
         df_cleaned = df.dropna(subset=self.columns)

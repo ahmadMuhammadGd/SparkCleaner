@@ -1,7 +1,7 @@
 from pyspark.sql import DataFrame
 from SparkCleaner.logger.logger import Logger 
 
-class CleaningStrategy:
+class BaseCleaningStrategy:
     def __init__(self, columns: list = None):
         self.columns = columns
         self.errors = []

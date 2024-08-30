@@ -1,6 +1,6 @@
-from SparkCleaner.Strategies.base import CleaningStrategy, DataFrame
+from SparkCleaner.Strategies.base import BaseCleaningStrategy, DataFrame
 
-class DropDuplicatesStrategy(CleaningStrategy):
+class DropDuplicatesStrategy(BaseCleaningStrategy):
     def clean(self, df: DataFrame) -> DataFrame:
         columns_to_check = [col for col in self.columns if col != "__index"]
         initial_count = df.count()

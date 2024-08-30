@@ -1,7 +1,7 @@
-from SparkCleaner.Strategies.base import CleaningStrategy, DataFrame
+from SparkCleaner.Strategies.base import BaseCleaningStrategy, DataFrame
 from pyspark.sql.functions import col
 
-class FilterNegativeValuesStrategy(CleaningStrategy):
+class FilterNegativeValuesStrategy(BaseCleaningStrategy):
     def clean(self, df: DataFrame) -> DataFrame:
         for column in self.columns:
             invalid_values = df.filter(col(column) <= 0)

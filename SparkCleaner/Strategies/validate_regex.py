@@ -1,8 +1,8 @@
-from SparkCleaner.Strategies.base import CleaningStrategy, DataFrame 
+from SparkCleaner.Strategies.base import BaseCleaningStrategy, DataFrame 
 from pyspark.sql.functions import col
 
 
-class ValidateRegexStrategy(CleaningStrategy):
+class ValidateRegexStrategy(BaseCleaningStrategy):
     def __init__(self, columns: list, patterns: dict, error_msg: str='regex_mismatch'):
         super().__init__(columns)
         self.patterns = patterns

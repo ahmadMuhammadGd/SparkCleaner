@@ -1,7 +1,7 @@
-from SparkCleaner.Strategies.base import CleaningStrategy, DataFrame 
+from SparkCleaner.Strategies.base import BaseCleaningStrategy, DataFrame 
 from pyspark.sql.functions import col, expr
 
-class ValidateDatesStrategy(CleaningStrategy):
+class ValidateDatesStrategy(BaseCleaningStrategy):
     def __init__(self, columns: list, date_format: str):
         super().__init__(columns)
         self.date_format = date_format

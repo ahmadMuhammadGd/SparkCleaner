@@ -1,10 +1,10 @@
-from SparkCleaner.Strategies.base import CleaningStrategy, DataFrame 
+from SparkCleaner.Strategies.base import BaseCleaningStrategy, DataFrame 
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import when, lit, col
 from pyspark.sql.types import DataType
 from typing import List, Dict
 
-class ValidateColumnTypesStrategy(CleaningStrategy):
+class ValidateColumnTypesStrategy(BaseCleaningStrategy):
     def __init__(self, columns: List[str], expected_types: Dict[str, DataType]):
         super().__init__(columns)
         self.expected_types = expected_types

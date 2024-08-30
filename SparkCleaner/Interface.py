@@ -1,4 +1,4 @@
-from SparkCleaner.Strategies.base import CleaningStrategy
+from SparkCleaner.Strategies.base import BaseCleaningStrategy
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import row_number,lit
 from pyspark.sql.window import Window
@@ -10,10 +10,10 @@ class CleaningPipeline:
         self.report = {}
         self.df = None
 
-    def add_strategy(self, strategy: CleaningStrategy | list[CleaningStrategy]):
+    def add_strategy(self, strategy: BaseCleaningStrategy | list[BaseCleaningStrategy]):
         if type(strategy) == list:
             [self.strategies.append(s) for s in strategy]
-        elif isinstance(strategy, CleaningStrategy):
+        elif isinstance(strategy, BaseCleaningStrategy):
             self.strategies.append(strategy)
 
     def set_dataframe(self, df: DataFrame):
