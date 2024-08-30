@@ -37,11 +37,19 @@ SparkCleaner is a Python library for data cleaning using PySpark. It provides va
    - **Method**: `clean(df: DataFrame) -> DataFrame`
    - **Logs**: Logs errors for values not matching the regex.
 
+7. **FilteringStrategy**
+   - **Purpose**: Filters rows based on specified boolean conditions.
+   - **Method**: `clean(df: DataFrame) -> DataFrame`
+
+8. **FillNaStrategy**
+   - **Purpose**: Replaces missing values with specified default values.
+   - **Method**: `clean(df: DataFrame) -> DataFrame`
+
 ## Cleaning Pipeline
 
 - **Class**: `CleaningPipeline`
 - **Methods**:
-  - `add_strategy(strategy: CleaningStrategy | list[CleaningStrategy])`: Adds a cleaning strategy or list of strategies.
+  - `add_strategy(strategy: BaseCleaningStrategy | list[BaseCleaningStrategy])`: Adds a cleaning strategy or list of strategies.
   - `set_dataframe(df: DataFrame)`: Sets the DataFrame to be cleaned and adds an `__index` column.
   - `run() -> DataFrame`: Applies all strategies to the DataFrame and returns the cleaned DataFrame.
   - `get_report() -> str`: Returns a JSON report of all logged errors.
