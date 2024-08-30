@@ -5,7 +5,8 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql.types import StringType, IntegerType, DoubleType
 
-from SparkCleaner import *
+from SparkCleaner import CleaningPipeline
+from SparkCleaner.Strategies import *
 
 import warnings
 warnings.simplefilter(action='ignore')
@@ -86,6 +87,16 @@ class TestCleaningStrategies(unittest.TestCase):
 
     def test_filter_negative_values(self):
         strategy = FilterNegativeValuesStrategy(columns=["age"])
+        pipeline = CleaningPipeline()
+        pipeline.add_strategy(strategy)
+        pipeline.set_dataframe(self.df)
+
+        cleaned_df = pipeline.run()
+        result = cleaned_df.filter(col("age") < 0).count()
+        self.assertEqual(result, 0)  # Should filter out negative values in 'age'
+    
+    def test_filter_on_condition(self):
+        strategy = FilteringStrategy(conditions=[col("age")>0])
         pipeline = CleaningPipeline()
         pipeline.add_strategy(strategy)
         pipeline.set_dataframe(self.df)
