@@ -22,8 +22,6 @@ class TestCleaningStrategies(unittest.TestCase):
             .getOrCreate()
         cls.spark.sparkContext.setLogLevel("OFF")
         
-
-        # Constructing a test DataFrame
         data = [
             (1, "Alice", 30, "2024-07-01", "alice@example.com"),
             (2, "Bob", None, "2024-07/02", "bob@example"),
@@ -104,6 +102,55 @@ class TestCleaningStrategies(unittest.TestCase):
         cleaned_df = pipeline.run()
         result = cleaned_df.filter(col("age") < 0).count()
         self.assertEqual(result, 0)  # Should filter out negative values in 'age'
+
+
+def test_replace_NA(self):
+    strategy = FillNAStrategy(fill_values={'email': 'invalid_value', 'age': -9999})
+    pipeline = CleaningPipeline()
+    pipeline.add_strategy(strategy)
+    pipeline.set_dataframe(self.df)
+    cleaned_df = pipeline.run()
+
+    age_null_count = cleaned_df.filter(col("age").isNull()).count()
+    age_replacement_count = cleaned_df.filter(col("age") == -9999).count()
+
+    email_null_count = cleaned_df.filter(col("email").isNull()).count()
+    email_replacement_count = cleaned_df.filter(col("email") == 'invalid_value').count()
+
+    self.assertEqual(age_null_count, 0, "There should be no NULL values in the 'age' column after filling.")
+    self.assertGreater(age_replacement_count, 0, "There should be rows where 'age' was replaced with -9999.")
+    
+    self.assertEqual(email_null_count, 0, "There should be no NULL values in the 'email' column after filling.")
+    self.assertGreater(email_replacement_count, 0, "There should be rows where 'email' was replaced with 'invalid_value'.")
+
+def test_replace_NA_none_or_empty(self):
+    strategy_none = FillNAStrategy(fill_values=None)
+    pipeline_none = CleaningPipeline()
+    pipeline_none.add_strategy(strategy_none)
+    pipeline_none.set_dataframe(self.df)
+
+    cleaned_df_none = pipeline_none.run()
+
+    original_null_count_age = self.df.filter(col("age").isNull()).count()
+    original_null_count_email = self.df.filter(col("email").isNull()).count()
+    cleaned_null_count_age_none = cleaned_df_none.filter(col("age").isNull()).count()
+    cleaned_null_count_email_none = cleaned_df_none.filter(col("email").isNull()).count()
+
+    self.assertEqual(original_null_count_age, cleaned_null_count_age_none, "The 'age' column should remain unchanged when fill_values is None.")
+    self.assertEqual(original_null_count_email, cleaned_null_count_email_none, "The 'email' column should remain unchanged when fill_values is None.")
+
+    strategy_empty = FillNAStrategy(fill_values={})
+    pipeline_empty = CleaningPipeline()
+    pipeline_empty.add_strategy(strategy_empty)
+    pipeline_empty.set_dataframe(self.df)
+
+    cleaned_df_empty = pipeline_empty.run()
+
+    cleaned_null_count_age_empty = cleaned_df_empty.filter(col("age").isNull()).count()
+    cleaned_null_count_email_empty = cleaned_df_empty.filter(col("email").isNull()).count()
+
+    self.assertEqual(original_null_count_age, cleaned_null_count_age_empty, "The 'age' column should remain unchanged when fill_values is an empty dictionary.")
+    self.assertEqual(original_null_count_email, cleaned_null_count_email_empty, "The 'email' column should remain unchanged when fill_values is an empty dictionary.")
 
     @classmethod
     def tearDownClass(cls):
